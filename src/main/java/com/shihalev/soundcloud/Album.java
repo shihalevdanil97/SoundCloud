@@ -8,7 +8,7 @@ public class Album {
 
     private String groupName;
 
-    private List<Track> tracks;
+    private List<Soundtrack> tracks;
 
     public Album(String name, String groupName) {
         this.name = name;

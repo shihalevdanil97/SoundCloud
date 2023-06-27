@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Playlist {
     private String name;
-    private List<Track> tracks;
+    private List<Soundtrack> tracks;
 
     private int number;
 
@@ -32,25 +32,20 @@ public class Playlist {
         return number;
     }
 
-    public List<Track> getTracks() {
+    public List<Soundtrack> getTracks() {
         return tracks;
     }
 
-    public void printPlaylist(List<Playlist>playlists){
-        for (Playlist playlist : playlists){
-            System.out.println(playlist.getNumber() + playlist.getName());
-        }
-    }
 
     public void printTrack() {
-        for (Track track : tracks) {
+        for (Soundtrack track : tracks) {
             System.out.println(track.getName());
         }
     }
 
     public void playTrack(int numberSong) {
         if (numberSong <= tracks.size()) {
-            for (Track track : tracks) {
+            for (Soundtrack track : tracks) {
                 track.listen();
             }
         } else {
@@ -64,37 +59,6 @@ public class Playlist {
         printTrack();
     }
 
-    public Playlist selectPlaylist(List<Playlist> playlists) {
-        if (playlists.isEmpty()) {
-            createPlaylist(playlists);
-            printPlaylist(playlists);
-        }
 
-        System.out.println("Выбрать No плейлиста");
-        Scanner scanner = new Scanner(System.in);
-        int number = scanner.nextInt();
-        for (Playlist playlist : playlists) {
-            if (number == playlist.getNumber()) {
-                return playlist;
-            }
-            else {
-                System.out.println("Плейлист не найден");
-            }
-        }
-
-    }
-
-    public void createPlaylist(List<Playlist> playlists) {
-        System.out.println("Введите название");
-        String answer = scanner.next();
-        for (Playlist playlist : playlists) {
-            if (playlist.getName().equals(answer)) {
-                System.out.println("Такой название уже есть");
-            } else {
-                Playlist playlistName = new Playlist(answer);
-                playlists.add(playlistName);
-            }
-        }
-    }
 }
 

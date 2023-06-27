@@ -1,10 +1,6 @@
 package com.shihalev.soundcloud;
 
-import com.shihalev.soundcloud.sound.Sound;
-
-import java.util.List;
-
-public class Track implements Sound {
+public class Soundtrack implements com.shihalev.soundcloud.sound.Soundtrack {
 
     private String group;
     private String name;
@@ -13,22 +9,20 @@ public class Track implements Sound {
 
     private int number;
 
-    private static int nextNumber = 1;
 
 
-    public Track(String group, String name, int duration) {
+    public Soundtrack(String group, String name, int duration) {
         this.group = group;
         this.name = name;
         this.duration = duration;
         this.like = false;
-        number = nextNumber;
-        nextNumber++;
     }
 
     public String getGroup() {
         return group;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -39,6 +33,10 @@ public class Track implements Sound {
 
     public int getNumber() {
         return number;
+    }
+
+    public void setNumber(int number){
+        this.number = number;
     }
 
     @Override

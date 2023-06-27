@@ -6,80 +6,100 @@ import java.util.Scanner;
 
 public class MusicPlayground {
     private final Scanner scanner;
+    private final List<Album> albums;
+    private final List<Soundtrack> sounds;
+    private final List<Playlist> playlists;
 
     public MusicPlayground(Scanner scanner) {
         this.scanner = scanner;
+        this.albums = new ArrayList<>();
+        this.sounds = new ArrayList<>();
+        this.playlists = new ArrayList<>();
     }
 
     public void start() {
         System.out.println("Это музыкальная площадка");
         System.out.println("SoundCloud");
         System.out.println("Что бы продолжить, напишите как к вам обращаться");
-        String tracks = scanner.next();
-        System.out.println("Добро пожаловать" + tracks);
-
-        List<Album> albums = new ArrayList<>();
-        List<Track> tracks = new ArrayList<>();
-        List<Playlist> playlists = new ArrayList<>();
+        String name = scanner.next();
+        System.out.println("Добро пожаловать" + name);
 
         while (true) {
             System.out.println("Выбирай команду");
             String command = scanner.next();
             switch (command) {
                 case "addSound":
-                    addSound(tracks);
+                    addSound();
                     break;
 
                 case "addAlbum":
-                    addAlbum(albums);
+                    addAlbum();
                     break;
 
                 case "addPlaylist":
-                    addPlaylist(playlists);
+                    addPlaylist();
                     break;
 
                 case "printList":
-                    printlist(tracks);
+                    printList();
                     break;
 
                 case "listenSound":
-                    listenSound(tracks);
+                    listenSound();
                     break;
 
                 case "playlist":
-                    playlist(playlists, tracks);
+                    playlist();
                     break;
 
-                case "addInPlaylist":
-                    if (playlists.isEmpty()) {
-                        addPlaylist(playlists);
-
-                    } else {
-                        printSounds(tracks);
-                        System.out.println("Выбрать No трека");
-                        int number = scanner.nextInt();
-                        addInPlayLIst(playlists, tracks, number);
-                    }
-                    break;
                 case "exit":
                     return;
             }
         }
     }
 
-    public void printPlaylists(List<Playlist> playists) {
-        for (Playlist playlist : playists) {
+    private void printPlaylists() {
+        for (Playlist playlist : playlists) {
             System.out.println(playlist.getName() + " " + playlist.getNumber());
         }
     }
 
-    public void printSounds(List<Track> tracks) {
-        for (Track sound : tracks) {
-            System.out.println(sound.getNumber() + sound.getName());
+    private void printSounds() {
+        for (com.shihalev.soundcloud.sound.Soundtrack sound : sounds) {
+            System.out.println(sound.getName());
         }
     }
 
-    public void addSound(List<Track> tracks) {
+    private void createPlaylist(List<Playlist> playlists) {
+        System.out.println("Введите название");
+        String answer = scanner.next();
+        for (Playlist playlist : playlists) {
+            if (playlist.getName().equals(answer)) {
+                System.out.println("Такой название уже есть");
+            } else {
+                Playlist playlistName = new Playlist(answer);
+                playlists.add(playlistName);
+            }
+        }
+    }
+
+    private boolean searchPlaylist(int number) {
+        for (Playlist playlist : playlists) {
+            if (number == playlist.getNumber()) {
+                return true;
+            }
+        }
+        System.out.println("Плейлист не найден");
+        return false;
+    }
+
+    public void printPlaylist(List<Playlist> playlists) {
+        for (Playlist playlist : playlists) {
+            System.out.println(playlist.getNumber() + playlist.getName());
+        }
+    }
+
+    private void addSound() {
         System.out.println("Название группы");
         String group = scanner.next();
         System.out.println("Песня");
@@ -87,11 +107,11 @@ public class MusicPlayground {
         System.out.println("Длина трека");
         int time = scanner.nextInt();
 
-        Track sound = new Track(group, track, time);
-        tracks.add(sound);
+        Soundtrack sound = new Soundtrack(group, track, time);
+        sounds.add(sound);
     }
 
-    public void addAlbum(List<Album> albums) {
+    public void addAlbum() {
         System.out.println("Название группы");
         String nameGroup = scanner.next();
         System.out.println("Название Альбома");
@@ -101,35 +121,41 @@ public class MusicPlayground {
         albums.add(album);
     }
 
-    public void addPlaylist(List<Playlist> playlists) {
+    private void addPlaylist() {
         System.out.println("Название плейлиста");
         String name = scanner.next();
         playlists.add(new Playlist(name));
     }
 
-    public void printlist(List<Track> tracks) {
-        for (Track n : tracks) {
-            System.out.println(n.getName());
+    private void printList() {
+        for (Soundtrack name : sounds) {
+            System.out.println(name.getName());
         }
     }
 
-    public void listenSound(List<Track> tracks) {
+    public void listenSound() {
         System.out.println("Название трека");
         String nameSound = scanner.next();
-        for (Track track : tracks)
-            if (nameSound.equals(track.getName())) {
-                track.listen();
+        for (Soundtrack sound : sounds) {
+            if (nameSound.equals(sound.getName())) {
+                sound.listen();
                 System.out.println("Поставить лайк ?");
-                String yesOrNou = scanner.next();
-                if (yesOrNou.equals("Yes")) {
-                    track.like();
+                String yesOrNo = scanner.next();
+                if (yesOrNo.equals("Yes")) {
+                    sound.like();
+                    return;
+                } else {
+                    return;
                 }
-            } else System.out.println("Трек не найден");
+            }
+        }
+        System.out.println("Такого трека нет");
+
     }
 
-    public void playlist(List<Playlist> playlists, List<Track> tracks) {
+    public void playlist() {
         if (!playlists.isEmpty()) {
-            printPlaylists(playlists);
+            printPlaylists();
             System.out.println("Выбрать No Плейлиста");
             int number = scanner.nextInt();
             for (Playlist playlist : playlists) {
@@ -143,13 +169,13 @@ public class MusicPlayground {
                                 turnSong(playlist);
                                 break;
                             case "addInPlayLIst":
-                                addTrack(playlist.getTracks(),playlists);
+                                addInPlayLIst();
                                 break;
                             case "mixPlayList":
                                 playlist.mixPlaylist();
                                 break;
                             case "likeTrack":
-                                likeTrack(playlist, tracks);
+                                likeTrack(playlist, sounds);
                             case "Back":
                                 return;
 
@@ -172,44 +198,48 @@ public class MusicPlayground {
         playlist.playTrack(numberTrack);
     }
 
-    public void addInPlayLIst(List<Playlist> playlists, List<Track> tracks) {
-        if(playlists.isEmpty()){
-            addPlaylist(playlists);
-
+    private boolean searchSound(int number) {
+        for (Soundtrack soundtrack : sounds) {
+            if (number == soundtrack.getNumber()) {
+                return true;
+            }
         }
-        selectPlaylist(playlists).add;
+        return false;
+    }
+
+    private void addInPlayLIst() {
+        if (playlists.isEmpty()) {
+            addPlaylist();
+        }
+        System.out.println("Введите номер плейлиста");
         int number = scanner.nextInt();
-        for(Track sound : tracks){
-            if (number == sound.getNumber()){
-                int
-                for(Track track : pl)
+        if (searchPlaylist(number)) {
+            printSounds();
+            for (Playlist playlist : playlists) {
+                System.out.println("Какой добавить трек?");
+                int numberSound = scanner.nextInt();
+                if (searchSound(numberSound)) {
+                    for (Soundtrack sound : sounds) {
+                        if (sound.getNumber() == numberSound) {
+                            playlist.getTracks().add(sound);
+                        }
+                    }
+                }
             }
         }
     }
 
-    public void likeTrack(Playlist playlist, List<Track> tracks) {
+    public void likeTrack(Playlist playlist, List<Soundtrack> sounds) {
         playlist.printTrack();
         System.out.println("Какому треку поставить лайк ?");
         String likeTrackName = scanner.next();
-        for (Track track : tracks) {
-            if (likeTrackName.equals(track.getName())) {
-                track.like();
+        for (Soundtrack sound : sounds) {
+            if (likeTrackName.equals(sound.getName())) {
+                sound.like();
                 break;
             } else {
                 System.out.println("Такого трека нет");
-
             }
         }
     }
-
-    public void addTrack(List<Track> tracks, List<Playlist> playlists){
-        int number = scanner.nextInt();
-        for(Track track : tracks){
-            if(track.getNumber() == number){
-                selectPlaylist(playlists).add(track);
-            }
-        }
-
-    }
-
 }
