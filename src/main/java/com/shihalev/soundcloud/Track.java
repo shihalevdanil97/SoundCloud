@@ -1,6 +1,7 @@
-package shihalev.SoundCloud;
+package com.shihalev.soundcloud;
 
-import shihalev.Interface.Sound;
+
+import com.shihalev.soundcloud.sound.Sound;
 
 public class Track implements Sound {
 

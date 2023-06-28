@@ -1,6 +1,4 @@
-package shihalev.SoundCloud;
-
-import shihalev.Interface.Sound;
+package com.shihalev.soundcloud;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,7 +146,7 @@ public class MusicPlayground {
                         turnSong(playlists.get(numberPlaylist));
                         break;
                     case "addInPlayLIst":
-                        addInPlayLIst(numberPlaylist);
+                        addInPlaylist(numberPlaylist);
                         break;
                     case "mixPlayList":
                         playlists.get(numberPlaylist).mixPlaylist();
@@ -190,7 +188,7 @@ public class MusicPlayground {
         playlist.playTrack(numberTrack);
     }
 
-    private void addInPlayLIst(int numberPlaylist) {
+    private void addInPlaylist(int numberPlaylist) {
         if (searchPlaylist(numberPlaylist)) {
             printSounds();
             System.out.println("Какой добавить трек?");
