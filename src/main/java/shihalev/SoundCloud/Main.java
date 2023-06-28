@@ -1,4 +1,4 @@
-package com.shihalev.soundcloud;
+package shihalev.SoundCloud;
 
 import java.util.Scanner;
 

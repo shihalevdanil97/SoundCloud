@@ -1,4 +1,4 @@
-package com.shihalev.soundcloud;
+package shihalev.SoundCloud;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ public class Album {
 
     private String groupName;
 
-    private List<Soundtrack> tracks;
+    private List<Track> tracks;
 
     public Album(String name, String groupName) {
         this.name = name;

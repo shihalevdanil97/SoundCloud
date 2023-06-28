@@ -1,17 +1,15 @@
-package com.shihalev.soundcloud;
+package shihalev.SoundCloud;
 
-public class Soundtrack implements com.shihalev.soundcloud.sound.Soundtrack {
+import shihalev.Interface.Sound;
+
+public class Track implements Sound {
 
     private String group;
     private String name;
     private int duration;
     private boolean like;
 
-    private int number;
-
-
-
-    public Soundtrack(String group, String name, int duration) {
+    public Track(String group, String name, int duration) {
         this.group = group;
         this.name = name;
         this.duration = duration;
@@ -29,14 +27,6 @@ public class Soundtrack implements com.shihalev.soundcloud.sound.Soundtrack {
 
     public int getDuration() {
         return duration;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number){
-        this.number = number;
     }
 
     @Override
