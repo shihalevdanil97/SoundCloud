@@ -5,9 +5,9 @@ import com.shihalev.soundcloud.sound.Sound;
 
 public class Track implements Sound {
 
-    private String group;
-    private String name;
-    private int duration;
+    private final String group;
+    private final String name;
+    private final int duration;
     private boolean like;
 
     public Track(String group, String name, int duration) {

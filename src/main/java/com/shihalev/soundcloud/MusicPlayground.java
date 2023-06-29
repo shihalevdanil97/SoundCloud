@@ -1,5 +1,7 @@
 package com.shihalev.soundcloud;
 
+import com.shihalev.soundcloud.sound.Sound;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -41,7 +43,7 @@ public class MusicPlayground {
                     break;
 
                 case "printList":
-                    printList();
+                    printSounds();
                     break;
 
                 case "listenSound":
@@ -59,14 +61,9 @@ public class MusicPlayground {
     }
 
     private void printPlaylists() {
+        int number = 1;
         for (Playlist playlist : playlists) {
-            System.out.println(playlist.getName());
-        }
-    }
-
-    private void printSounds() {
-        for (Track sound : tracks) {
-            System.out.println(sound.getName());
+            System.out.println(number + ". " + playlist.getName());
         }
     }
 
@@ -82,7 +79,7 @@ public class MusicPlayground {
         tracks.add(sound);
     }
 
-    public void addAlbum() {
+    private void addAlbum() {
         System.out.println("Название группы");
         String nameGroup = scanner.next();
         System.out.println("Название Альбома");
@@ -105,28 +102,29 @@ public class MusicPlayground {
         }
     }
 
-    private void printList() {
-        for (Track name : tracks) {
-            System.out.println(name.getName());
+    private void printSounds() {
+        int trackNumber = 1;
+        for (Sound name : tracks) {
+            System.out.println(trackNumber + " . " + name.getName());
+            trackNumber++;
         }
     }
 
     private void listenSound() {
-        System.out.println("Название трека");
-        String nameSound = scanner.next();
-        for (Track sound : tracks) {
-            if (nameSound.equals(sound.getName())) {
-                sound.listen();
-                System.out.println("Поставить лайк ?");
-                String yesOrNo = scanner.next();
-                if (yesOrNo.equals("Yes")) {
-                    sound.like();
-                }
-                return;
+        System.out.println("Номер трека");
+        int number = scanner.nextInt();
+        if (number > tracks.size() || number < 1) {
+            tracks.get(number + 1).listen();
+            System.out.println("Поставить лайк ?");
+            String yesOrNo = scanner.next();
+            if (yesOrNo.equals("Yes")) {
+                tracks.get(number + 1).like();
             }
+        } else {
+            System.out.println("Такого трека нет");
         }
-        System.out.println("Такого трека нет");
     }
+
 
     private void playlist() {
         if (playlists.isEmpty()) {
@@ -135,27 +133,26 @@ public class MusicPlayground {
         }
         printPlaylists();
         System.out.println("Выбрать No Плейлиста");
-        int numberPlaylist = scanner.nextInt();
-        if (searchPlaylist(numberPlaylist)) {
-            playlists.get(numberPlaylist).printTrack();
+        int number = scanner.nextInt();
+        if (isThatPlaylist(number)) {
+            playlists.get(number).printTrack();
             while (true) {
                 System.out.println("Выбрать команду");
                 String playlistCommand = scanner.next();
                 switch (playlistCommand) {
                     case "turnSong":
-                        turnSong(playlists.get(numberPlaylist));
+                        turnSong(playlists.get(number - 1));
                         break;
                     case "addInPlayLIst":
-                        addInPlaylist(numberPlaylist);
+                        addInPlaylist(number - 1);
                         break;
                     case "mixPlayList":
-                        playlists.get(numberPlaylist).mixPlaylist();
+                        playlists.get(number - 1).mixPlaylist();
                         break;
                     case "likeTrack":
-                        likeTrack(playlists.get(numberPlaylist));
+                        likeTrack(playlists.get(number - 1));
                     case "Back":
                         return;
-
                 }
             }
         } else {
@@ -164,20 +161,9 @@ public class MusicPlayground {
     }
 
 
-    private boolean searchPlaylist(int numberPlaylist) {
-        for (int number = 0; number < playlists.size(); number++) {
-            if (number == numberPlaylist - 1) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean searchSound(int numberSound) {
-        for (int number = 0; number < tracks.size(); number++) {
-            if (number == numberSound - 1) {
-                return true;
-            }
+    private boolean isThatPlaylist(int numberPlaylist) {
+        if (numberPlaylist > playlists.size() || numberPlaylist < 1) {
+            return true;
         }
         return false;
     }
@@ -189,21 +175,16 @@ public class MusicPlayground {
     }
 
     private void addInPlaylist(int numberPlaylist) {
-        if (searchPlaylist(numberPlaylist)) {
-            printSounds();
+        if (numberPlaylist < 1 || numberPlaylist > playlists.size()) {
             System.out.println("Какой добавить трек?");
             int numberSound = scanner.nextInt();
-            if (searchSound(numberSound)) {
-                for (int number = 0; number < tracks.size(); number++) {
-                    if (number == numberSound - 1) {
-                        playlists(number);
-                    }
-                }
+            if (numberSound < 1 || numberSound > tracks.size()) {
+                playlists.get(numberPlaylist).getTracks().add(tracks.get(numberSound));
             }
         }
     }
 
-    public void likeTrack(Playlist playlist) {
+    private void likeTrack(Playlist playlist) {
         playlist.printTrack();
         System.out.println("Какому треку поставить лайк ?");
         String likeTrackName = scanner.next();
