@@ -1,7 +1,11 @@
 package com.shihalev.soundcloud;
 
-
 import com.shihalev.soundcloud.sound.Sound;
+/**
+ * Обьект класса <code>Track<code>
+ * имитирует песню
+ * Пункт управления конкретной песни
+ */
 
 public class Track implements Sound {
 
@@ -16,7 +20,11 @@ public class Track implements Sound {
         this.duration = duration;
         this.like = false;
     }
-
+    @Override
+    public boolean equals(Object obj) {
+        Track track = (Track) obj;
+        return name == track.name && group == track.getGroup() && duration == track.getDuration();
+    }
     public String getGroup() {
         return group;
     }

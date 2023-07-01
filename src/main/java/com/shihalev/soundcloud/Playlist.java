@@ -3,6 +3,11 @@ package com.shihalev.soundcloud;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+/**
+ * Обьект класса <code>Playlist<code>
+ * имитирует музыкальный Плейлист
+ * Пункт управления плейлистом
+ */
 
 public class Playlist {
     private final String name;
@@ -14,6 +19,12 @@ public class Playlist {
 
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Playlist playlist = (Playlist)obj;
+        return name == playlist.name;
+    }
+
     public String getName() {
         return name;
     }
@@ -23,7 +34,7 @@ public class Playlist {
     }
 
 
-    public void printTrack() {
+    public void printTracks() {
         for (Track track : tracks) {
             System.out.println(track.getName());
         }
@@ -39,7 +50,7 @@ public class Playlist {
 
     public void mixPlaylist() {
         Collections.shuffle(tracks);
-        printTrack();
+        printTracks();
     }
 }
 
