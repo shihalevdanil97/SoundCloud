@@ -1,6 +1,10 @@
 package com.shihalev.soundcloud;
 
 import com.shihalev.soundcloud.sound.Sound;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Обьект класса <code>Track<code>
  * имитирует песню
@@ -13,18 +17,19 @@ public class Track implements Sound {
     private final String name;
     private final int duration;
     private boolean like;
+    private final List<Enum> categories;
+    private int listenAmount;
 
     public Track(String group, String name, int duration) {
         this.group = group;
         this.name = name;
         this.duration = duration;
         this.like = false;
+        this.categories = new ArrayList<>();
+        this.listenAmount = 0;
     }
-    @Override
-    public boolean equals(Object obj) {
-        Track track = (Track) obj;
-        return name == track.name && group == track.getGroup() && duration == track.getDuration();
-    }
+
+
     public String getGroup() {
         return group;
     }
@@ -37,10 +42,18 @@ public class Track implements Sound {
     public int getDuration() {
         return duration;
     }
+    public int getListenAmount(){
+        return listenAmount;
+    }
+
+    public List<Enum> getCategories() {
+        return categories;
+    }
 
     @Override
     public void listen() {
         System.out.println("ЛаЛаЛа играет песня");
+        listenAmount++;
     }
 
     @Override
@@ -57,5 +70,17 @@ public class Track implements Sound {
         System.out.println("Воспроизвести");
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Track track = (Track) obj;
+        return (name.equals(track.name)) &&
+                (group.equals(track.group)) &&
+                (duration == track.duration);
+    }
+
+    @Override
+    public String toString() {
+        return group + " " + name + " " + categories;
+    }
 
 }

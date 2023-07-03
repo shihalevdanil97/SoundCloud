@@ -4,6 +4,7 @@ import com.shihalev.soundcloud.sound.Sound;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Обьект класса <code>Podcast<code>
  * имитирует Подкаст
@@ -13,7 +14,7 @@ public class Podcast implements Sound {
     private final String name;
     private final int duration;
 
-    private  boolean like = false;
+    private boolean like;
 
     private final List<String> categories;
 
@@ -21,38 +22,48 @@ public class Podcast implements Sound {
         this.name = name;
         this.duration = duration;
         this.categories = new ArrayList<>();
+        this.like = false;
     }
-    @Override
-    public boolean equals(Object obj) {
-        Podcast podcast = (Podcast) obj;
-        return name == podcast.name && duration == podcast.getDuration();
-    }
-    public List<String> getCategories(){
+
+    public List<String> getCategories() {
         return categories;
     }
 
-    public int getDuration(){
+    public int getDuration() {
         return duration;
     }
+
     @Override
-    public void listen(){
+    public void listen() {
         System.out.println("Вы слушаете подкаст");
     }
 
     @Override
-    public void like(){
+    public void like() {
         this.like = true;
     }
 
     @Override
-    public String getName(){
+    public String getName() {
         return name;
     }
+
     public void pause() {
         System.out.println("Пауза");
     }
 
     public void play() {
         System.out.println("Воспроизвести");
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Podcast podcast = (Podcast) obj;
+        return (name.equals(podcast.name) && (duration == podcast.duration));
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + categories;
     }
 }

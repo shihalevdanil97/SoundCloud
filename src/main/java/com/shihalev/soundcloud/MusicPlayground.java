@@ -46,6 +46,8 @@ public class MusicPlayground {
                 case "listenSound":
                     listenSound();
                     break;
+                case "songRating":
+
                 case "addAlbum":
                     addAlbum();
                     break;
@@ -67,6 +69,27 @@ public class MusicPlayground {
         }
     }
 
+    private void songRating(Track track) {
+        int listenAmount = 0;
+        int rating = 0;
+        for (Track sound : tracks) {
+            listenAmount = listenAmount + sound.getListenAmount();
+        }
+        rating = (listenAmount / (listenAmount / 100) * (track.getListenAmount()));
+    }
+
+    private void addSounds() {
+        for (int amount = 0; amount < 10; amount++) {
+            String group = "Og";
+            String name = "Cloop";
+            int time = 4;
+            Track trackName = new Track(group, name, time);
+            tracks.add(trackName);
+            name = name + amount;
+            time++;
+        }
+    }
+
     /**
      * Выводит список плейлистов
      */
@@ -74,6 +97,7 @@ public class MusicPlayground {
         int number = 1;
         for (Playlist playlist : playlists) {
             System.out.println(number + ". " + playlist.getName());
+            number++;
         }
     }
 
@@ -85,17 +109,16 @@ public class MusicPlayground {
         String group = scanner.next();
         System.out.println("Песня");
         String name = scanner.next();
+        System.out.println("Длина трека");
+        int time = scanner.nextInt();
+        Track trackName = new Track(group, name, time);
         for (Track track : tracks) {
-            if (track.getName().equals(name)) {
+            if (track.equals(trackName)) {
                 System.out.println("Такое название уже есть в списке");
                 return;
             }
         }
-        System.out.println("Длина трека");
-        int time = scanner.nextInt();
-
-        Track track = new Track(group, name, time);
-        tracks.add(track);
+        tracks.add(trackName);
     }
 
     /**
@@ -103,16 +126,15 @@ public class MusicPlayground {
      */
     private void addAlbum() {
         System.out.println("Название группы");
-        String nameGroup = scanner.next();
+        String groupName = scanner.next();
         System.out.println("Название Альбома");
-        String nameAlbum = scanner.next();
+        String albumName = scanner.next();
         System.out.println("Длинна альбома");
         int duration = scanner.nextInt();
-        Album album = new Album(nameGroup, nameAlbum, duration);
-        for (Album numberAlbum: albums){
-            if(numberAlbum.equals(album)){
+        Album album = new Album(groupName, albumName, duration);
+        for (Album albumNumber : albums) {
+            if (albumNumber.equals(album)) {
                 System.out.println("Такой альбом уже есть");
-
                 return;
             }
         }
@@ -125,13 +147,13 @@ public class MusicPlayground {
     private void addPlaylist() {
         System.out.println("Название плейлиста");
         String name = scanner.next();
+        Playlist playlistName = new Playlist(name);
         for (Playlist playlist : playlists) {
-            if (playlist.getName().equals(name)) {
+            if (playlist.equals(name)) {
                 System.out.println("Такой название уже есть");
                 return;
             }
         }
-        Playlist playlistName = new Playlist(name);
         playlists.add(playlistName);
     }
 
@@ -141,20 +163,34 @@ public class MusicPlayground {
     private void addPodcast() {
         System.out.println("Название подкаста");
         String name = scanner.next();
+        System.out.println("Введите время");
+        int duration = scanner.nextInt();
+        Podcast podcastName = new Podcast(name, duration);
         for (Podcast podcast : podcasts) {
-            if (podcast.getName().equals(name)) {
+            if (podcast.equals(name)) {
                 System.out.println("Такое имя уже есть в списке");
                 return;
             }
         }
-        System.out.println("Введите время");
-        int duration = scanner.nextInt();
-        Podcast podcastName = new Podcast(name, duration);
         System.out.println("Жанр подкаста один или несколько");
         int amount = scanner.nextInt();
         for (int categories = 0; categories < amount - 1; categories++) {
             String category = scanner.next();
             podcastName.getCategories().add(category);
+        }
+    }
+
+    private void сhooseAlbumGenre(Album album) {
+        System.out.println("Жанр альбома один или несколько");
+        int amount = scanner.nextInt();
+        for (int categories = 0; categories < amount; categories++) {
+            System.out.println("Введи номер жанра");
+            int genreAlbum = scanner.nextInt();
+            if (genreAlbum < 1 && genreAlbum > 9) {
+                System.out.println("Некоректный ввод");
+            }
+
+            album.getCategories().add(genre(genreAlbum));
         }
     }
 
@@ -165,6 +201,7 @@ public class MusicPlayground {
         int number = 1;
         for (Podcast podcast : podcasts) {
             System.out.println(number + ". " + podcast.getName());
+            number++;
         }
     }
 
@@ -173,7 +210,7 @@ public class MusicPlayground {
      */
     private void printSounds() {
         int trackNumber = 1;
-        for (Sound name : tracks) {
+        for (Track name : tracks) {
             System.out.println(trackNumber + ". " + name.getName());
             trackNumber++;
         }
@@ -238,10 +275,11 @@ public class MusicPlayground {
 
     /**
      * Проверка на наличие плейлиста
-     * @param numberPlaylist номер нужного
+     *
+     * @param playlistNumber номер нужного
      */
-    private boolean isPlaylistPresent(int numberPlaylist) {
-        if (numberPlaylist > playlists.size() || numberPlaylist < 1) {
+    private boolean isPlaylistPresent(int playlistNumber) {
+        if (playlistNumber > playlists.size() || playlistNumber < 1) {
             return true;
         }
         return false;
@@ -249,6 +287,7 @@ public class MusicPlayground {
 
     /**
      * Воспроизводит трек из плейлиста
+     *
      * @param playlist конкретный плейлист
      */
     private void turnSong(Playlist playlist) {
@@ -259,19 +298,22 @@ public class MusicPlayground {
 
     /**
      * Добавляет трек в плейлист
-     * @param numberPlaylist порядковый номер плейлиста
+     *
+     * @param playlistNumber порядковый номер плейлиста
      */
-    private void addInPlaylist(int numberPlaylist) {
-        if (numberPlaylist < 1 || numberPlaylist > playlists.size()) {
+    private void addInPlaylist(int playlistNumber) {
+        if (playlistNumber < 1 || playlistNumber > playlists.size()) {
             System.out.println("Какой добавить трек?");
-            int numberSound = scanner.nextInt();
-            if (numberSound < 1 || numberSound > tracks.size()) {
-                playlists.get(numberPlaylist).getTracks().add(tracks.get(numberSound));
+            int soundNumber = scanner.nextInt();
+            if (soundNumber < 1 || soundNumber > tracks.size()) {
+                playlists.get(playlistNumber).getTracks().add(tracks.get(soundNumber));
             }
         }
     }
+
     /**
      * Выбор какому трекку поставить лайк
+     *
      * @param playlist кокретный плейлист
      */
     private void likeTrack(Playlist playlist) {
