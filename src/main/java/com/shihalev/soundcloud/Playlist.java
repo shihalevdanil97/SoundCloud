@@ -4,12 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Обьект класса <code>Playlist<code>
- * имитирует музыкальный Плейлист
- * Пункт управления плейлистом
- */
-
 public class Playlist {
     private final String name;
     private final List<Track> tracks;
@@ -17,14 +11,6 @@ public class Playlist {
     public Playlist(String name) {
         this.name = name;
         this.tracks = new ArrayList<>();
-        tracks.add(new Track("Factor2", "Love", 3));
-        tracks.add(new Track("Factor2", "Love", 3));
-        tracks.add(new Track("Famaly", "Like", 2));
-        tracks.add(new Track("Bookin", "Bad", 3));
-        tracks.add(new Track("Diego", "Forlan", 4));
-        tracks.add(new Track("Sex", "Beach", 5));
-        tracks.add(new Track("Scorpions", "Animal", 2));
-        tracks.add(new Track("Double", "Fight", 4));
     }
 
     public String getName() {
@@ -36,8 +22,10 @@ public class Playlist {
     }
 
     public void printTracks() {
+        int number = 1;
         for (Track track : tracks) {
-            System.out.println(track.getName());
+            System.out.println(number + ". " + track.getName());
+            number++;
         }
     }
 
@@ -49,11 +37,6 @@ public class Playlist {
         tracks.get(number - 1).listen();
     }
 
-    public void mixPlaylist() {
-        Collections.shuffle(tracks);
-        printTracks();
-    }
-
     @Override
     public boolean equals(Object obj) {
         Playlist playlist = (Playlist) obj;
@@ -62,7 +45,7 @@ public class Playlist {
 
     @Override
     public String toString() {
-        return name + tracks;
+        return name;
     }
 
 }

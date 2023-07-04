@@ -13,7 +13,6 @@ public class Album {
     private final String name;
     private final String groupName;
     private final List<Track> tracks;
-    private final List<Enum> categories;
     private final int duration;
     private boolean like = false;
 
@@ -22,19 +21,6 @@ public class Album {
         this.groupName = groupName;
         this.duration = duration;
         this.tracks = new ArrayList<>();
-        this.categories = new ArrayList<>();
-        tracks.add(new Track("Factor2", "Love", 3));
-        tracks.add(new Track("Factor2", "Love", 3));
-        tracks.add(new Track("Famaly", "Like", 2));
-        tracks.add(new Track("Bookin", "Bad", 3));
-        tracks.add(new Track("Diego", "Forlan", 4));
-        tracks.add(new Track("Sex", "Beach", 5));
-        tracks.add(new Track("Scorpions", "Animal", 2));
-        tracks.add(new Track("Double", "Fight", 4));
-    }
-
-    public List<Enum> getCategories() {
-        return categories;
     }
 
     public int getDuration() {
@@ -49,6 +35,10 @@ public class Album {
         return name;
     }
 
+    public List<Track> getTracks() {
+        return tracks;
+    }
+
     @Override
     public boolean equals(Object obj) {
         Album album = (Album) obj;
@@ -59,7 +49,7 @@ public class Album {
 
     @Override
     public String toString() {
-        return groupName + " " + name + " " + categories + " " + tracks;
+        return groupName + " " + name + " " + tracks;
     }
 
 }

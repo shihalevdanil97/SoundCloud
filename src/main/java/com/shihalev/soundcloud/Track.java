@@ -17,7 +17,6 @@ public class Track implements Sound {
     private final String name;
     private final int duration;
     private boolean like;
-    private final List<Enum> categories;
     private int listenAmount;
 
     public Track(String group, String name, int duration) {
@@ -25,7 +24,6 @@ public class Track implements Sound {
         this.name = name;
         this.duration = duration;
         this.like = false;
-        this.categories = new ArrayList<>();
         this.listenAmount = 0;
     }
 
@@ -44,10 +42,6 @@ public class Track implements Sound {
     }
     public int getListenAmount(){
         return listenAmount;
-    }
-
-    public List<Enum> getCategories() {
-        return categories;
     }
 
     @Override
@@ -80,7 +74,7 @@ public class Track implements Sound {
 
     @Override
     public String toString() {
-        return group + " " + name + " " + categories;
+        return group + " " + name;
     }
 
 }
