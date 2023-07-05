@@ -5,11 +5,6 @@ import com.shihalev.soundcloud.sound.Sound;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Обьект класса <code>Podcast<code>
- * имитирует Подкаст
- * пункт управления конкретным подкастом
- */
 public class Podcast implements Sound {
     private final String name;
     private final int duration;
@@ -58,12 +53,19 @@ public class Podcast implements Sound {
 
     @Override
     public boolean equals(Object obj) {
+        if(this == obj){
+            return true;
+        }
+        if(!(obj instanceof Podcast)){
+            return false;
+        }
         Podcast podcast = (Podcast) obj;
-        return (name.equals(podcast.name) && (duration == podcast.duration));
+        return (name.equals(podcast.name) &&
+                (duration == podcast.duration));
     }
 
     @Override
     public String toString() {
-        return name + " " + categories;
+        return name;
     }
 }

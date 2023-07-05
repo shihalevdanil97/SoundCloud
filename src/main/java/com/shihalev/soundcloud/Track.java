@@ -5,12 +5,6 @@ import com.shihalev.soundcloud.sound.Sound;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Обьект класса <code>Track<code>
- * имитирует песню
- * Пункт управления конкретной песни
- */
-
 public class Track implements Sound {
 
     private final String group;
@@ -66,6 +60,12 @@ public class Track implements Sound {
 
     @Override
     public boolean equals(Object obj) {
+        if(this == obj){
+            return true;
+        }
+        if(!(obj instanceof Track)){
+            return false;
+        }
         Track track = (Track) obj;
         return (name.equals(track.name)) &&
                 (group.equals(track.group)) &&
